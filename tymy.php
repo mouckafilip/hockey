@@ -5,7 +5,6 @@
 ?>
 
 <?php
-
 include __DIR__ . '/includes/header.php';
 
 $tymyB = [
@@ -23,27 +22,16 @@ $tymyA = [
     ['id' => 9, 'vlajka' => '🇩🇪', 'nazev' => 'Německo', 'z' => 0, 'v' => 0, 'vp' => 0, 'pp' => 0, 'p' => 0, 'skore' => '0:0', 'body' => 0],
     ['id' => 10, 'vlajka' => '🇳🇴', 'nazev' => 'Norsko', 'z' => 0, 'v' => 0, 'vp' => 0, 'pp' => 0, 'p' => 0, 'skore' => '0:0', 'body' => 0],
 ];
-
 ?>
 
-<style>
-    /* CSS zůstává beze změny */
-    body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; background-image: url('assets/images/image2.jpg') !important; background-size: cover !important; background-position: center !important; background-attachment: fixed !important; background-repeat: no-repeat !important; }
-    .container { flex: 1; }
-    .card, .tab-content, .nav-tabs .nav-link { background-color: rgba(255, 255, 255, 0.95) !important; backdrop-filter: blur(5px); border: none !important; }
-    .nav-tabs .nav-link { color: #333 !important; border-radius: 8px 8px 0 0 !important; transition: 0.3s; border: none !important; }
-    .nav-tabs .nav-link.active { background-color: #0d6efd !important; color: #ffffff !important; font-weight: bold; }
-    .pos-qualify { border-left: 5px solid #198754 !important; }
-    .badge { background-color: #0d6efd !important; color: #ffffff !important; font-weight: bold; padding: 5px 10px; border-radius: 4px; }
-    h1 { font-size: 1.8rem !important; color: #ffffff !important; text-shadow: 0 0 10px #0d6efd, 0 0 20px #0d6efd; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-</style>
+<div class="tymy-page">
+    <div class="container my-5">
 
-<div class="container my-5 tymy-page">
-    <div class="row mb-4">
-        <div class="col">
-            <h1>Týmy a tabulky skupin</h1>
+        <div class="row mb-4">
+            <div class="col">
+                <h1>Týmy a tabulky skupin</h1>
+            </div>
         </div>
-    </div>
 
     <ul class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item" role="presentation">
