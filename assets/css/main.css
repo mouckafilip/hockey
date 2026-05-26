@@ -1,0 +1,173 @@
+.hero-section {
+    width: 100%;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/homepage/hero.jpeg');
+    background-size: cover;
+    background-position: center;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.2;
+    text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+}
+
+.hero-highlight {
+    color: #38bdf8;
+    text-shadow: 0 0 15px #38bdf8;
+}
+
+.hero-btn {
+    background: transparent;
+    border: 2px solid #38bdf8;
+    padding: 12px 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+    transition: 0.3s;
+}
+
+@keyframes moveBackground {
+    0% { background-position: 50% 0%; }
+    100% { background-position: 50% 100%; }
+}
+
+.navbar-brand-custom {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.4rem !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #ffffff !important;
+    margin-left: 40px;
+}
+
+.nav-btn {
+    font-family: 'Oswald', sans-serif;
+    color: #ffffff !important;
+    font-weight: 400;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    padding: 8px 22px !important;
+    text-transform: uppercase;
+}
+
+.nav-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.login-btn {
+    border-radius: 8px;
+    font-family: 'Oswald', sans-serif;
+}
+
+.btn:hover {
+    background: #38bdf8 !important;
+    color: black !important;
+    box-shadow: 0 0 25px #38bdf8 !important;
+}
+
+/* --- NOVÉ OPRAVNÉ STYLY PRO PŘIHLÁŠENÍ --- */
+
+/* Pozadí s hokejovým stadionem přímo pro přihlašovací stránku */
+.login-page {
+    /* Zesílené zesvětlení pozadí (zvýšeno na 75% až 80% bílé krytí), 
+      aby se docílilo mlžného světelného efektu jako na původním screenshotu.
+    */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.8)), 
+                      url('../images/login/login-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: calc(100vh - 120px); /* Automatické roztažení na zbytek výšky monitoru */
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+}
+
+/* Ochrana proti smrštění Bootstrap containeru v d-flex layoutu */
+.login-page .container {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* Bezpečné minimální rozměry pro přihlašovací kartu */
+.login-page .card {
+    min-width: 290px;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Stylování inputů pro modernější vzhled */
+.login-page .form-control {
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.login-page .form-control:focus {
+    border-color: #1e75ff;
+    box-shadow: 0 0 0 3px rgba(30, 117, 255, 0.15);
+}
+
+/* Oprava a nastylování tlačítka "Oko" pro zobrazení hesla v input-group */
+.password-toggle-btn {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-left: none;
+    color: #6c757d;
+    padding: 0 15px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle-btn:hover {
+    color: #1e75ff;
+    background-color: rgba(30, 117, 255, 0.05);
+    border-color: #ced4da;
+}
+
+/* U inputu s okem odstraníme pravé zaoblení, protože na něj navazuje tlačítko */
+.login-page .input-group .form-control {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+/* Vzhled hlavního přihlašovacího tlačítka ladící s modrým tématem */
+.login-submit-btn {
+    background-color: #1e75ff !important;
+    border-color: #1e75ff !important;
+    color: white !important;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 8px !important;
+    padding: 12px;
+    transition: all 0.2s ease;
+}
+
+.login-submit-btn:hover {
+    background-color: #125cd4 !important;
+    border-color: #125cd4 !important;
+    box-shadow: 0 5px 15px rgba(30, 117, 255, 0.4) !important;
+}

@@ -1,3 +1,25 @@
+<?php
+
+    session_start();
+
+
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/flash.php';
+
+
+  $jePrihlasen = isset($_SESSION['user']);
+
+  $_SESSION['flash'] = ['message' => 'xxxx', 'type' => 'danger'];
+
+?>
+
+<?php if (isset($_SESSION['flash_message'])): ?>
+    <div class="alert alert-info">
+        <?php echo $_SESSION['flash_message']; ?>
+    </div>
+    <?php unset($_SESSION['flash_message']); // Smažu ji, aby se neukazovala pořád ?>
+<?php endif; ?>
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -10,41 +32,11 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
-    <style>
-        /* Logo vlevo, výrazné, font Oswald */
-        .navbar-brand-custom {
-            font-family: 'Oswald', sans-serif;
-            font-size: 2.4rem !important; 
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #ffffff !important;
-            margin-left: 40px; /* Odsazení od levého okraje */
-        }
-
-        /* Styl tlačítek v menu */
-        .nav-btn {
-            font-family: 'Oswald', sans-serif;
-            color: #ffffff !important;
-            font-weight: 400;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.4) !important;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            padding: 8px 22px !important;
-            text-transform: uppercase;
-        }
-        .nav-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-color: #ffffff !important;
-            transform: translateY(-1px);
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg py-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg py-1">
   <div class="container-fluid">
     
     <a class="navbar-brand navbar-brand-custom d-flex align-items-center" href="index.php">
@@ -71,14 +63,22 @@
           </li>
         </ul>
 
-        <a class="btn btn-light text-primary d-flex align-items-center gap-2 px-4 py-2 fw-bold shadow" href="login.php" style="border-radius: 8px; font-family: 'Oswald', sans-serif;">
-          <i class="bi bi-person-circle"></i> PŘIHLÁSIT
-        </a>
+        <?php if ($jePrihlasen): ?>
+            <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2 px-4 py-2 fw-bold" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle fs-5"></i> <?php echo htmlspecialchars($_SESSION['user']); ?>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item text-danger" href="logout.php">Odhlásit se</a></li>
+                </ul>
+            </div>
+        <?php else: ?>
+            <a class="btn btn-light text-primary d-flex align-items-center gap-2 px-4 py-2 fw-bold shadow login-btn" href="login.php">
+                <i class="bi bi-person-circle fs-5"></i> PŘIHLÁSIT
+            </a>
+        <?php endif; ?>
 
       </div>
     </div>
   </div>
 </nav>
-
-</body>
-</html>
