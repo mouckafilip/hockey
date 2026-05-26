@@ -1,6 +1,12 @@
-<?php 
-include __DIR__ . '/includes/header.php'; 
-include __DIR__ . '/includes/flash.php';
+<?php
+    session_start();
+    require __DIR__ . '/config/flash.php';
+    require __DIR__ . '/config/db.php';
+?>
+
+
+<?php
+    include __DIR__ . '/includes/header.php';
 ?>
 
 <div class="hero-section">
@@ -16,10 +22,10 @@ include __DIR__ . '/includes/flash.php';
 
 <main class="container pb-5">
     <?php
-    if (!empty($_SESSION['flash'])):
-    endif; 
+        if (!empty($_SESSION['flash'])):
+        endif;
     ?>
-    </main>
+</main>
 
 <?php 
 include __DIR__ . '/includes/footer.php'; 

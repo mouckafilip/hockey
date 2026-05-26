@@ -1,24 +1,6 @@
 <?php
-
-    session_start();
-
-
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../includes/flash.php';
-
-
-  $jePrihlasen = isset($_SESSION['user']);
-
-  $_SESSION['flash'] = ['message' => 'xxxx', 'type' => 'danger'];
-
+    $jePrihlasen = isset($_SESSION['user']);
 ?>
-
-<?php if (isset($_SESSION['flash_message'])): ?>
-    <div class="alert alert-info">
-        <?php echo $_SESSION['flash_message']; ?>
-    </div>
-    <?php unset($_SESSION['flash_message']); // Smažu ji, aby se neukazovala pořád ?>
-<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="cs">
@@ -82,3 +64,15 @@ require_once __DIR__ . '/../includes/flash.php';
     </div>
   </div>
 </nav>
+<?php
+// Flash zprávy
+if (!empty($_SESSION['flash'])):
+    $flash = $_SESSION['flash'];
+    unset($_SESSION['flash']);
+    $alertClass = $flash['type'] === 'error' ? 'danger' : $flash['type'];
+    ?>
+    <div class="alert alert-<?= htmlspecialchars($alertClass) ?> alert-dismissible fade show mb-0 text-center" role="alert">
+        <?= htmlspecialchars($flash['message']) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>

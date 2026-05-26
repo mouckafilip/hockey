@@ -1,12 +1,7 @@
 <?php
-session_start();
+    require __DIR__ . '/config/flash.php';
 
-require_once __DIR__ . '/includes/flash.php';
-
-flash('Byli jste úspěšně odhlášeni.', 'success');
-
-$_SESSION = [];
-session_destroy();
-
-header('Location: index.php');
+    session_start();
+    session_destroy();
+    header('Location: login.php?logout=1');
 exit;

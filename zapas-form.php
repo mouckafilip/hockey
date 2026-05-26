@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    require __DIR__ . '/config/flash.php';
+    require __DIR__ . '/config/db.php';
+?>
+
 <?php include __DIR__ . '/includes/header.php'; ?>
 
 <div class="container my-5">

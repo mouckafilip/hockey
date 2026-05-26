@@ -1,6 +1,7 @@
 ﻿<?php
 session_start();
-require_once __DIR__ . '/config/db.php'; 
+require __DIR__ . '/config/flash.php';
+require __DIR__ . '/config/db.php';
 
 $error = '';
 
@@ -16,13 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verify hashed password
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user'] = $username;
-      
+        flash('Byli jste úspěšně přihlášeni.', 'success');
         header('Location: index.php');
         exit;
     } else {
+        flash('Špatné jméno nebo heslo', 'danger');
         $error = 'Špatné jméno nebo heslo.';
     }
 }
+
+if (isset($_GET['logout'])) {
+    flash('Byli jste úspěšně odhlášeni.', 'success');
+}
+
 ?>
 
 <?php 
