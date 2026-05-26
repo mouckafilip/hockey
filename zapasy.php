@@ -30,7 +30,9 @@ $zapasy = [
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Zápasy</h1>
-        <a href="zapas-form.php" class="btn btn-success">+ Přidat zápas</a>
+        <a href="zapas-form.php" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> Přidat zápas
+        </a>
     </div>
 
     <div class="mb-4">

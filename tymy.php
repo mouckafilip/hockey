@@ -26,12 +26,16 @@ $tymyA = [
 
 <div class="tymy-page">
     <div class="container my-5">
-
-        <div class="row mb-4">
-            <div class="col">
-                <h1>Týmy a tabulky skupin</h1>
-            </div>
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Týmy a tabulky skupin</h1>
         </div>
+        <div class="col-auto d-flex align-items-center">
+            <a href="tymy-form.php" class="btn btn-success">
+                <i class="bi bi-plus-lg"></i> Přidat tým
+            </a>
+        </div>
+    </div>
 
     <ul class="nav nav-tabs mb-3" role="tablist">
         <li class="nav-item" role="presentation">

@@ -247,3 +247,9 @@ body:has(.tymy-page) {
     padding: 5px 10px;
     border-radius: 4px;
 }
+
+.tymy-page .btn-success {
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
