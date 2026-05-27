@@ -56,7 +56,18 @@ $tymyA = [
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr><th>#</th><th>Tým</th><th>Z</th><th>V</th><th>VP</th><th>PP</th><th>P</th><th>Skóre</th><th>Body</th></tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Tým</th>
+                                <th>Z</th>
+                                <th>V</th>
+                                <th>VP</th>
+                                <th>PP</th>
+                                <th>P</th>
+                                <th>Skóre</th>
+                                <th>Body</th>
+                                <th class="text-center" style="width: 1%; white-space: nowrap;">Akce</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($tymyB as $i => $t): $num = $i + 1;
@@ -73,6 +84,20 @@ $tymyA = [
                                 <td><?= htmlspecialchars($t['p']) ?></td>
                                 <td><?= htmlspecialchars($t['skore']) ?></td>
                                 <td><span class="badge bg-success"><?= htmlspecialchars($t['body']) ?></span></td>
+                                <td class="text-center align-middle p-2">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <a href="tymy-form.php?id=<?= $t['id'] ?>"
+                                            class="btn btn-primary" 
+                                            title="Upravit">
+                                                <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="delete.php?id=<?= $t['id'] ?>" 
+                                            class="btn btn-danger" 
+                                            title="Smazat">
+                                                <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -86,7 +111,18 @@ $tymyA = [
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light">
-                            <tr><th>#</th><th>Tým</th><th>Z</th><th>V</th><th>VP</th><th>PP</th><th>P</th><th>Skóre</th><th>Body</th></tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Tým</th>
+                                <th>Z</th>
+                                <th>V</th>
+                                <th>VP</th>
+                                <th>PP</th>
+                                <th>P</th>
+                                <th>Skóre</th>
+                                <th>Body</th>
+                                <th class="text-center" style="width: 1%; white-space: nowrap;">Akce</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($tymyA as $i => $t): $num = $i + 1;
@@ -102,6 +138,20 @@ $tymyA = [
                                 <td><?= htmlspecialchars($t['p']) ?></td>
                                 <td><?= htmlspecialchars($t['skore']) ?></td>
                                 <td><span class="badge"><?= htmlspecialchars($t['body']) ?></span></td>
+                                <td class="text-center align-middle p-2">
+                                    <div class="d-flex justify-content-center align-items-center gap-2">
+                                        <a href="edit-form.php?id=<?= $t['id'] ?>" 
+                                            class="btn btn-primary" 
+                                            title="Upravit">
+                                                <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a href="tymy-form.php?id=<?= $t['id'] ?>"
+                                            class="btn btn-danger" 
+                                            title="Smazat">
+                                                <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
