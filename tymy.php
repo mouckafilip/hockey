@@ -13,6 +13,18 @@ $stmt->execute();
 $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+<style>
+    .rank-box {
+        border: 2px solid #28a745;
+        border-radius: 4px;
+        padding: 2px 8px;
+        display: inline-block;
+        font-weight: bold;
+        background-color: transparent;
+        line-height: 1;
+    }
+</style>
+
 <div class="tymy-page">
     <div class="container my-5">
         <div class="row mb-4">
@@ -60,17 +72,27 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </thead>
                             <tbody>
                                 <?php if (!empty($tymyB)): ?>
-                                    <?php foreach ($tymyB as $i => $t): $num = $i + 1; ?>
-                                    <tr>
-                                        <th scope="row"><?= htmlspecialchars($num) ?>.</th>
-                                        <td><?= htmlspecialchars($t['vlajka_emoji']) ?> <?= htmlspecialchars($t['nazev']) ?></td>
+                                    <?php foreach ($tymyB as $i => $t): 
+                                        $num = $i + 1;
+                                        $rowClass = ($num === 1) ? 'table-info' : '';
+                                        $showBox = ($num <= 3) ? true : false;
+                                    ?>
+                                    <tr class="<?= htmlspecialchars($rowClass) ?>">
+                                        <th scope="row">
+                                            <?php if ($showBox): ?>
+                                                <div class="rank-box"><?= htmlspecialchars($num) ?>.</div>
+                                            <?php else: ?>
+                                                <?= htmlspecialchars($num) ?>.
+                                            <?php endif; ?>
+                                        </th>
+                                        <td><?= $t['vlajka_emoji'] ?> <strong><?= htmlspecialchars($t['nazev']) ?></strong> (<?= htmlspecialchars($t['kod']) ?>)</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
-                                        <td><span class="badge bg-success">0</span></td>
+                                        <td><span class="badge bg-primary">0</span></td>
                                         <td class="text-center align-middle p-2">
                                             <div class="d-flex justify-content-center align-items-center gap-2">
                                                 <a href="tymy-form.php?id=<?= $t['id'] ?>"
@@ -119,17 +141,27 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </thead>
                             <tbody>
                                 <?php if (!empty($tymyA)): ?>
-                                    <?php foreach ($tymyA as $i => $t): $num = $i + 1; ?>
-                                    <tr>
-                                        <th scope="row"><?= htmlspecialchars($num) ?>.</th>
-                                        <td><?= htmlspecialchars($t['vlajka_emoji']) ?> <?= htmlspecialchars($t['nazev']) ?></td>
+                                    <?php foreach ($tymyA as $i => $t): 
+                                        $num = $i + 1;
+                                        $rowClass = ($num === 1) ? 'table-info' : '';
+                                        $showBox = ($num <= 3) ? true : false;
+                                    ?>
+                                    <tr class="<?= htmlspecialchars($rowClass) ?>">
+                                        <th scope="row">
+                                            <?php if ($showBox): ?>
+                                                <div class="rank-box"><?= htmlspecialchars($num) ?>.</div>
+                                            <?php else: ?>
+                                                <?= htmlspecialchars($num) ?>.
+                                            <?php endif; ?>
+                                        </th>
+                                        <td><?= $t['vlajka_emoji'] ?> <strong><?= htmlspecialchars($t['nazev']) ?></strong> (<?= htmlspecialchars($t['kod']) ?>)</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
-                                        <td><span class="badge bg-success">0</span></td>
+                                        <td><span class="badge bg-primary">0</span></td>
                                         <td class="text-center align-middle p-2">
                                             <div class="d-flex justify-content-center align-items-center gap-2">
                                                 <a href="tymy-form.php?id=<?= $t['id'] ?>"
@@ -137,7 +169,7 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                     title="Upravit">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <a href="smazat.php?id=<?= $t['id'] ?>" 
+                                                <a href="tymy-delete.php?id=<?= $t['id'] ?>" 
                                                     class="btn btn-danger btn-sm" 
                                                     title="Smazat"
                                                     onclick="return confirm('Opravdu smazat?');">

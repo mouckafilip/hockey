@@ -45,7 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: tymy.php");
             exit;
         } catch (PDOException $e) {
-            $errors[] = "Chyba databáze: " . $e->getMessage();
+            // Detekce duplikátu
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false || strpos($e->getMessage(), 'UNIQUE') !== false) {
+                $errors[] = "Tým s kódem " . htmlspecialchars($kod) . " již existuje. Zvolte jiný kód.";
+            } else {
+                $errors[] = "Chyba při ukládání: " . $e->getMessage();
+            }
         }
     }
 }
@@ -87,18 +92,18 @@ if ($isEdit && $_SERVER['REQUEST_METHOD'] !== 'POST') {
 
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label class="form-label">Kód (3 znaky)</label>
+                        <label class="form-label">Kód (3 znaky) <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="kod" maxlength="3" placeholder="CZE" value="<?= htmlspecialchars($team['kod']) ?>" required>
                         <small class="form-text text-muted">např. CZE, USA, SVK</small>
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Název</label>
+                        <label class="form-label">Název <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="nazev" placeholder="Česko" value="<?= htmlspecialchars($team['nazev']) ?>" required>
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Skupina</label>
+                        <label class="form-label">Skupina <span class="text-danger">*</span></label>
                         <select class="form-select" name="skupina" required>
                             <option value="">— Vyberte skupinu —</option>
                             <option value="A" <?= $team['skupina'] === 'A' ? 'selected' : '' ?>>Skupina A</option>
@@ -107,13 +112,13 @@ if ($isEdit && $_SERVER['REQUEST_METHOD'] !== 'POST') {
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label">Emoji vlajka</label>
+                        <label class="form-label">Emoji vlajka <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="vlajka_emoji" placeholder="🇨🇿" value="<?= htmlspecialchars($team['vlajka_emoji']) ?>" required>
                         <small class="form-text text-muted">např. 🇨🇿, 🇺🇸, 🇸🇰</small>
                     </div>
 
                     <div class="col-12">
-                        <label class="form-label">Trenér (nepovinné)</label>
+                        <label class="form-label">Trenér</label>
                         <input type="text" class="form-control" name="trener" placeholder="Radim Rulík" value="<?= htmlspecialchars($team['trener']) ?>">
                     </div>
                 </div>

@@ -11,13 +11,11 @@ $options = [
 ];
 
 try {
-  $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password, $options);
+  $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=$charset", $username, $password, $options);
   // set the PDO error mode to exception
   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   // echo "Connected successfully";
 } catch(PDOException $e) {
   echo "Connection failed: " . $e->getMessage();
 }
-
-
 ?>
