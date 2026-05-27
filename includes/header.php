@@ -1,4 +1,5 @@
 <?php
+    require __DIR__ . '/../config/db.php';
     $jePrihlasen = isset($_SESSION['user']);
 ?>
 
