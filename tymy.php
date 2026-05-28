@@ -3,7 +3,6 @@ session_start();
 require __DIR__ . '/config/flash.php';
 include __DIR__ . '/includes/header.php';
 
-// Načtení týmů z databáze podle skupin
 $stmt = $conn->prepare("SELECT id, kod, nazev, skupina, trener, vlajka_emoji FROM tymy WHERE skupina = 'B' ORDER BY nazev");
 $stmt->execute();
 $tymyB = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -11,6 +10,9 @@ $tymyB = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $conn->prepare("SELECT id, kod, nazev, skupina, trener, vlajka_emoji FROM tymy WHERE skupina = 'A' ORDER BY nazev");
 $stmt->execute();
 $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$isAdmin = isset($_SESSION['admin']) && $_SESSION['admin'] === true;
+$isLoggedIn = isset($_SESSION['user_id']);
 ?>
 
 <style>
@@ -33,9 +35,11 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <h1>Týmy a tabulky skupin</h1>
             </div>
             <div class="col-auto d-flex align-items-center">
-                <a href="tymy-form.php" class="btn btn-success">
-                    <i class="bi bi-plus-lg"></i> Přidat tým
-                </a>
+                <?php if ($isAdmin): ?>
+                    <a href="tymy-form.php" class="btn btn-success">
+                        <i class="bi bi-plus-lg"></i> Přidat tým
+                    </a>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -82,34 +86,53 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <th scope="row" <?= $showBox ? 'class="rank-cell"' : '' ?>>
                                             <?= htmlspecialchars($num) ?>.
                                         </th>
-                                        <td><?= $t['vlajka_emoji'] ?> <strong><?= htmlspecialchars($t['nazev']) ?></strong> (<?= htmlspecialchars($t['kod']) ?>)</td>
+
+                                        <td>
+                                            <?= $t['vlajka_emoji'] ?>
+                                            <strong><?= htmlspecialchars($t['nazev']) ?></strong>
+                                            (<?= htmlspecialchars($t['kod']) ?>)
+                                        </td>
+
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
-                                        <td><span class="badge bg-primary">0</span></td>
+
+                                        <td>
+                                            <span class="badge bg-primary">0</span>
+                                        </td>
+
                                         <td class="text-center align-middle p-2">
-                                            <div class="d-flex justify-content-center align-items-center gap-2">
-                                                <a href="tymy-form.php?id=<?= $t['id'] ?>"
-                                                    class="btn btn-primary btn-sm" 
-                                                    title="Upravit">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                                <a href="tymy-delete.php?id=<?= $t['id'] ?>" 
-                                                    class="btn btn-danger btn-sm" 
-                                                    title="Smazat"
-                                                    onclick="return confirm('Opravdu smazat?');">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
-                                            </div>
+                                            <?php if ($isAdmin): ?>
+                                                <div class="d-flex justify-content-center align-items-center gap-2">
+
+                                                    <a href="tymy-form.php?id=<?= $t['id'] ?>"
+                                                        class="btn btn-primary btn-sm"
+                                                        title="Upravit">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+
+                                                    <a href="tymy-delete.php?id=<?= $t['id'] ?>"
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Smazat"
+                                                        onclick="return confirm('Opravdu smazat tým <?= htmlspecialchars(addslashes($t['nazev'])) ?>?');">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+
+                                                </div>
+                                            <?php else: ?>
+                                                <span class="text-muted small">—</span>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="10" class="text-center text-muted py-4">Zatím žádné týmy v této skupině</td>
+                                        <td colspan="10" class="text-center text-muted py-4">
+                                            Zatím žádné týmy v této skupině
+                                        </td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
@@ -136,48 +159,70 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <th class="text-center" style="width: 1%; white-space: nowrap;">Akce</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 <?php if (!empty($tymyA)): ?>
-                                    <?php foreach ($tymyA as $i => $t): 
+                                    <?php foreach ($tymyA as $i => $t):
                                         $num = $i + 1;
                                         $rowClass = ($num === 1) ? 'table-info' : '';
                                         $showBox = ($num <= 3) ? true : false;
                                     ?>
                                     <tr class="<?= htmlspecialchars($rowClass) ?>">
+
                                         <th scope="row" <?= $showBox ? 'class="rank-cell"' : '' ?>>
                                             <?= htmlspecialchars($num) ?>.
                                         </th>
-                                        <td><?= $t['vlajka_emoji'] ?> <strong><?= htmlspecialchars($t['nazev']) ?></strong> (<?= htmlspecialchars($t['kod']) ?>)</td>
+
+                                        <td>
+                                            <?= $t['vlajka_emoji'] ?>
+                                            <strong><?= htmlspecialchars($t['nazev']) ?></strong>
+                                            (<?= htmlspecialchars($t['kod']) ?>)
+                                        </td>
+
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
                                         <td>—</td>
-                                        <td><span class="badge bg-primary">0</span></td>
+
+                                        <td>
+                                            <span class="badge bg-primary">0</span>
+                                        </td>
+
                                         <td class="text-center align-middle p-2">
-                                            <div class="d-flex justify-content-center align-items-center gap-2">
-                                                <a href="tymy-form.php?id=<?= $t['id'] ?>"
-                                                    class="btn btn-primary btn-sm" 
-                                                    title="Upravit">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                                <a href="tymy-delete.php?id=<?= $t['id'] ?>" 
-                                                    class="btn btn-danger btn-sm" 
-                                                    title="Smazat"
-                                                    onclick="return confirm('Opravdu smazat?');">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
-                                            </div>
+                                            <?php if ($isAdmin): ?>
+                                                <div class="d-flex justify-content-center align-items-center gap-2">
+
+                                                    <a href="tymy-form.php?id=<?= $t['id'] ?>"
+                                                        class="btn btn-primary btn-sm"
+                                                        title="Upravit">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+
+                                                    <a href="tymy-delete.php?id=<?= $t['id'] ?>"
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Smazat"
+                                                        onclick="return confirm('Opravdu smazat tým <?= htmlspecialchars(addslashes($t['nazev'])) ?>?');">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+
+                                                </div>
+                                            <?php else: ?>
+                                                <span class="text-muted small">—</span>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="10" class="text-center text-muted py-4">Zatím žádné týmy v této skupině</td>
+                                        <td colspan="10" class="text-center text-muted py-4">
+                                            Zatím žádné týmy v této skupině
+                                        </td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>
+
                         </table>
                     </div>
                 </div>

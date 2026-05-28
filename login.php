@@ -9,14 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['user'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    // Query database for the user
-    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
+    $stmt = $conn->prepare("SELECT id, password, admin FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
-    // Verify hashed password
     if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user_id'] = $user['id'];
         $_SESSION['user'] = $username;
+        $_SESSION['admin'] = (bool)$user['admin'];
+        
         flash('Byli jste úspěšně přihlášeni.', 'success');
         header('Location: index.php');
         exit;
