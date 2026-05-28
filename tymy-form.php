@@ -30,13 +30,9 @@ echo '<div style="background: #d4edda; padding: 10px; margin: 10px; color: green
 // ============================================
 // ⚠️ KONTROLA 2: Musíš být admin
 // ============================================
-if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== 1) {
+
+if (!isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
     echo '<div style="background: #f8d7da; padding: 20px; color: red;">';
-    echo '<strong>❌ FAIL KONTROLA 2:</strong> Nejsi admin!<br>';
-    echo 'isset($_SESSION[\'admin\']) = ' . (isset($_SESSION['admin']) ? 'TRUE' : 'FALSE') . '<br>';
-    echo '$_SESSION[\'admin\'] = ' . var_export($_SESSION['admin'] ?? null, true) . '<br>';
-    echo '$_SESSION[\'admin\'] !== 1 = ' . (($_SESSION['admin'] ?? null) !== 1 ? 'TRUE' : 'FALSE') . '<br>';
-    echo '</div>';
     flash('Nemáš oprávnění přidávat/upravovat týmy. Pouze administrátoři mohou spravovat týmy.', 'danger');
     header('Location: tymy.php');
     exit;
