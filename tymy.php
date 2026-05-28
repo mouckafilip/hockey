@@ -14,14 +14,15 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <style>
-    .rank-box {
-        border: 2px solid #28a745;
-        border-radius: 4px;
-        padding: 2px 8px;
-        display: inline-block;
+    th.rank-cell {
+        border: 4px solid #28a745 !important;
+        text-align: center;
+        vertical-align: middle !important;
+        width: 54px;
+        min-width: 54px;
         font-weight: bold;
-        background-color: transparent;
-        line-height: 1;
+        font-size: 1rem;
+        padding: 8px !important;
     }
 </style>
 
@@ -78,12 +79,8 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         $showBox = ($num <= 3) ? true : false;
                                     ?>
                                     <tr class="<?= htmlspecialchars($rowClass) ?>">
-                                        <th scope="row">
-                                            <?php if ($showBox): ?>
-                                                <div class="rank-box"><?= htmlspecialchars($num) ?>.</div>
-                                            <?php else: ?>
-                                                <?= htmlspecialchars($num) ?>.
-                                            <?php endif; ?>
+                                        <th scope="row" <?= $showBox ? 'class="rank-cell"' : '' ?>>
+                                            <?= htmlspecialchars($num) ?>.
                                         </th>
                                         <td><?= $t['vlajka_emoji'] ?> <strong><?= htmlspecialchars($t['nazev']) ?></strong> (<?= htmlspecialchars($t['kod']) ?>)</td>
                                         <td>—</td>
@@ -147,12 +144,8 @@ $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         $showBox = ($num <= 3) ? true : false;
                                     ?>
                                     <tr class="<?= htmlspecialchars($rowClass) ?>">
-                                        <th scope="row">
-                                            <?php if ($showBox): ?>
-                                                <div class="rank-box"><?= htmlspecialchars($num) ?>.</div>
-                                            <?php else: ?>
-                                                <?= htmlspecialchars($num) ?>.
-                                            <?php endif; ?>
+                                        <th scope="row" <?= $showBox ? 'class="rank-cell"' : '' ?>>
+                                            <?= htmlspecialchars($num) ?>.
                                         </th>
                                         <td><?= $t['vlajka_emoji'] ?> <strong><?= htmlspecialchars($t['nazev']) ?></strong> (<?= htmlspecialchars($t['kod']) ?>)</td>
                                         <td>—</td>
