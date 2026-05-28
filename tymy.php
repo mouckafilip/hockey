@@ -11,7 +11,16 @@ $stmt = $conn->prepare("SELECT id, kod, nazev, skupina, trener, vlajka_emoji FRO
 $stmt->execute();
 $tymyA = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$isAdmin = isset($_SESSION['admin']) && $_SESSION['admin'] === true;
+// Debug - smaž potom
+echo '<pre style="background:yellow; padding:10px; margin:10px;">';
+echo 'Admin check DEBUG:' . "\n";
+echo 'isset($_SESSION[\'admin\']) = ' . (isset($_SESSION['admin']) ? 'YES' : 'NO') . "\n";
+echo '$_SESSION[\'admin\'] value = ' . var_export($_SESSION['admin'] ?? 'UNDEFINED', true) . "\n";
+echo '$_SESSION[\'admin\'] === 1 = ' . (($_SESSION['admin'] ?? null) === 1 ? 'YES' : 'NO') . "\n";
+echo '$isAdmin final = ' . ($isAdmin ? 'TRUE' : 'FALSE') . "\n";
+echo '</pre>';
+
+$isAdmin = isset($_SESSION['admin']) && $_SESSION['admin'];
 $isLoggedIn = isset($_SESSION['user_id']);
 ?>
 
@@ -114,7 +123,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
 
-                                                    <a href="tymy-delete.php?id=<?= $t['id'] ?>"
+                                                    <a href="smazat.php?id=<?= $t['id'] ?>"
                                                         class="btn btn-danger btn-sm"
                                                         title="Smazat"
                                                         onclick="return confirm('Opravdu smazat tým <?= htmlspecialchars(addslashes($t['nazev'])) ?>?');">
@@ -200,7 +209,7 @@ $isLoggedIn = isset($_SESSION['user_id']);
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
 
-                                                    <a href="tymy-delete.php?id=<?= $t['id'] ?>"
+                                                    <a href="smazat.php?id=<?= $t['id'] ?>"
                                                         class="btn btn-danger btn-sm"
                                                         title="Smazat"
                                                         onclick="return confirm('Opravdu smazat tým <?= htmlspecialchars(addslashes($t['nazev'])) ?>?');">

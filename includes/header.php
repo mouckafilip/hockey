@@ -1,6 +1,11 @@
 <?php
-    require __DIR__ . '/../config/db.php';
-    $jePrihlasen = isset($_SESSION['user']);
+  if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
+    
+  require __DIR__ . '/../config/db.php';
+  $jePrihlasen = isset($_SESSION['user']);
+  $isAdmin = isset($_SESSION['admin']) && $_SESSION['admin'] === true;
 ?>
 
 <!DOCTYPE html>
