@@ -3,8 +3,13 @@ session_start();
 require __DIR__ . '/config/flash.php';
 require __DIR__ . '/config/db.php';
 
+include __DIR__ . '/includes/header.php';
+
+// ============================================
+// Načtení zápasů z DB
+// ============================================
 $stmt = $conn->prepare("
-    SELECT 
+    SELECT
         z.id,
         z.datum,
         z.domaci_id,
@@ -14,10 +19,10 @@ $stmt = $conn->prepare("
         z.prodlouzeni,
         z.faze,
         z.arena,
-        td.nazev as domaci_nazev,
-        td.vlajka_emoji as domaci_emoji,
-        th.nazev as hoste_nazev,
-        th.vlajka_emoji as hoste_emoji
+        td.nazev AS domaci_nazev,
+        td.vlajka_emoji AS domaci_emoji,
+        th.nazev AS hoste_nazev,
+        th.vlajka_emoji AS hoste_emoji
     FROM zapasy z
     LEFT JOIN tymy td ON z.domaci_id = td.id
     LEFT JOIN tymy th ON z.hoste_id = th.id
@@ -26,40 +31,20 @@ $stmt = $conn->prepare("
 $stmt->execute();
 $zapasy = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$isAdmin = isset($_SESSION['admin']) && $_SESSION['admin'] === true;
-$isLoggedIn = isset($_SESSION['user_id']);
+// ============================================
+// Kontrola oprávnění
+// ============================================
+$isAdmin     = isset($_SESSION['admin']) && $_SESSION['admin'] === true;
+$isLoggedIn  = isset($_SESSION['user_id']);
+
 ?>
 
-<?php
-include __DIR__ . '/includes/header.php';
-?>
-
-<style>
-    body {
-        background-image: url('assets/images/image2.jpg') !important;
-        background-attachment: fixed !important;
-        background-size: cover !important;
-    }
-    .card {
-        background-color: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(5px);
-        border: none !important;
-    }
-    .badge-p {
-        background-color: #ffc107;
-        color: #000;
-        font-size: 0.8em;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-weight: bold;
-    }
-</style>
-
-<div class="container my-5">
-    <div class="row mb-4">
-        <div class="col">
-            <h1>Zápasy</h1>
-        </div>
+<div class="zapasy-page">
+    <div class="container my-5">
+        <div class="row mb-4">
+            <div class="col">
+                <h1>Zápasy</h1>
+            </div>
         <div class="col-auto d-flex align-items-center">
             <?php if ($isAdmin): ?>
                 <a href="zapas-form.php" class="btn btn-success">
@@ -93,20 +78,25 @@ include __DIR__ . '/includes/header.php';
                 <tbody>
                     <?php if (!empty($zapasy)): ?>
                         <?php foreach ($zapasy as $z): 
+                            // Příprava textu domácího a hostujícího týmu
                             $domaci = ($z['domaci_emoji'] ?? '') . ' ' . htmlspecialchars($z['domaci_nazev'] ?? 'N/A');
                             $hoste = ($z['hoste_emoji'] ?? '') . ' ' . htmlspecialchars($z['hoste_nazev'] ?? 'N/A');
                             
+                            // Formátování výsledku
                             if ($z['skore_domaci'] !== null && $z['skore_hoste'] !== null) {
-                                $vysledek = $z['skore_domaci'] . ':' . $z['skore_hoste'];
-                                if ($z['prodlouzeni']) {
-                                    $vysledek .= ' P';
-                                }
+                                $vysledek = htmlspecialchars($z['skore_domaci'] . ':' . $z['skore_hoste']);
+                                $maProdlouzeni = $z['prodlouzeni'];
                             } else {
                                 $vysledek = '—';
+                                $maProdlouzeni = false;
                             }
                             
+                            // Formátování času a data
                             $casText = $z['datum'] ? date('H:i', strtotime($z['datum'])) : '—';
                             $datumText = $z['datum'] ? date('d. m.', strtotime($z['datum'])) : '—';
+                            
+                            // Escape pro JavaScript confirm dialog
+                            $matchInfo = htmlspecialchars(addslashes($domaci . ' vs ' . $hoste));
                         ?>
                         <tr>
                             <td>
@@ -117,25 +107,25 @@ include __DIR__ . '/includes/header.php';
                                 <?= $domaci ?> vs <?= $hoste ?>
                             </td>
                             <td>
-                                <strong><?= htmlspecialchars($vysledek) ?></strong>
-                                <?php if ($z['prodlouzeni']): ?>
-                                    <span class="badge-p">P</span>
+                                <strong><?= $vysledek ?></strong>
+                                <?php if ($maProdlouzeni): ?>
+                                    <span class="badge bg-warning text-dark">P</span>
                                 <?php endif; ?>
                             </td>
                             <td><?= htmlspecialchars($z['arena'] ?? '—') ?></td>
                             <td class="text-center align-middle p-2">
                                 <?php if ($isAdmin): ?>
                                     <div class="d-flex justify-content-center align-items-center gap-2">
-                                        <a href="zapas-form.php?id=<?= $z['id'] ?>"
+                                        <a href="zapas-form.php?id=<?= (int)$z['id'] ?>"
                                             class="btn btn-primary btn-sm"
                                             title="Upravit">
                                             <i class="bi bi-pencil"></i>
                                         </a>
 
-                                        <a href="zapas-delete.php?id=<?= $z['id'] ?>"
+                                        <a href="zapas-delete.php?id=<?= (int)$z['id'] ?>"
                                             class="btn btn-danger btn-sm"
                                             title="Smazat"
-                                            onclick="return confirm('Opravdu smazat zápas <?= htmlspecialchars(addslashes($domaci . ' vs ' . $hoste)) ?>?');">
+                                            onclick="return confirm('Opravdu smazat zápas <?= $matchInfo ?>?');">
                                             <i class="bi bi-trash"></i>
                                         </a>
                                     </div>
@@ -155,6 +145,7 @@ include __DIR__ . '/includes/header.php';
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 </div>
 
